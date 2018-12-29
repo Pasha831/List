@@ -15,6 +15,7 @@ private:
 	link* findprev(link* &tmp, int d);
 	link* cngindex(link* tmp, bool a);
 	int count = 0;
+	void createfirst(int d);
 public:
 	Linklist()
 	{
@@ -32,15 +33,19 @@ public:
 	void pop();
 	int size();
 };
+void Linklist::createfirst(int d)
+{
+	first = new link;
+	first->data = d;
+	first->index = count++;
+	first->next = NULL;
+	current = first;
+}
 void Linklist::push(int d)
 {
 	if (first == NULL)
 	{
-		first = new link;
-		first->data = d;
-		first->index = count++;
-		first->next = NULL;
-		current = first;
+		createfirst(d);
 	}
 	else
 	{
@@ -68,7 +73,7 @@ void Linklist::remove(int a)
 	link* prev = findprev(tmp, a);
 
 	prev->next = tmp->next;
-	cngindex(tmp,true);
+	cngindex(tmp, true);
 
 	delete tmp;
 }
@@ -78,7 +83,7 @@ void Linklist::insert(int data, int d)
 	link* newlink = new link;
 	link* tmp = first;
 	link* prev = findprev(tmp, d);
-	
+
 	newlink->data = data;
 	newlink->index = d;
 	newlink->next = tmp;
