@@ -84,7 +84,8 @@ void Linklist::push_front(int d)
 		newlink->index = 0;
 		newlink->next = first;
 		newlink->prev = NULL;
-
+		first->prev = newlink;
+		
 		first = newlink;
 		current = first;
 		cngindex(current->next, true);
