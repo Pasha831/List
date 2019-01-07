@@ -13,7 +13,8 @@ class Linklist
 private:
 	Link* first;
 	Link* current;
-	Link* cngindex(Link* tmp, bool a);
+	void create_first(int d);
+	void cngindex(Link* tmp, bool a);
 	Link* find(Link* tmp, int d);
 	int count;
 	int size = 0;
@@ -35,22 +36,24 @@ public:
 	void pop_front();
 	void insert(int data, int d);
 	void erase(int d);
-	void swapall();
 	int getsize();
 	void show();
 };
-
+void Linklist::create_first(int d)
+{
+	first = new Link;
+	first->index = count++;
+	first->data = d;
+	first->prev = NULL;
+	first->next = NULL;
+	current = first;
+	size++;
+}
 void Linklist::push_back(int d)
 {
 	if (first == NULL)
 	{
-		first = new Link;
-		first->index = count++;
-		first->data = d;
-		first->prev = NULL;
-		first->next = NULL;
-		current = first;
-		size++;
+		create_first(d);
 	}
 	else
 	{
@@ -69,13 +72,7 @@ void Linklist::push_front(int d)
 {
 	if (first == NULL)
 	{
-		first = new Link;
-		first->index = count++;
-		first->data = d;
-		first->prev = NULL;
-		first->next = NULL;
-		current = first;
-		size++;
+		create_first(d);
 	}
 	else
 	{
@@ -84,8 +81,7 @@ void Linklist::push_front(int d)
 		newlink->index = 0;
 		newlink->next = first;
 		newlink->prev = NULL;
-		first->prev = newlink;
-		
+
 		first = newlink;
 		current = first;
 		cngindex(current->next, true);
@@ -94,7 +90,7 @@ void Linklist::push_front(int d)
 }
 void Linklist::pop_back()
 {
-	Link* tmp = find(first, size-1);
+	Link* tmp = find(first, size - 1);
 	Link* prev = tmp->prev;
 	prev->next = NULL;
 	size--;
@@ -144,7 +140,7 @@ Link* Linklist::find(Link* tmp, int d)
 	result = tmp;
 	return result;
 }
-Link* Linklist::cngindex(Link* tmp, bool a)
+void Linklist::cngindex(Link* tmp, bool a)
 {
 	if (a == true)
 	{
@@ -162,7 +158,6 @@ Link* Linklist::cngindex(Link* tmp, bool a)
 			tmp = tmp->next;
 		}
 	}
-	return 0;
 }
 void Linklist::show()
 {
@@ -177,18 +172,7 @@ int Linklist::getsize()
 {
 	return size;
 }
-void Linklist::swapall()
-{
-	Link* tmp = first;
-	while (tmp != NULL)
-	{
-		int temp_data = tmp->data;
-		tmp->data = tmp->next->data;
-		tmp->next->data = temp_data;
 
-		tmp = tmp->next;
-	}
-}
 
 int main()
 {
@@ -204,7 +188,6 @@ int main()
 	//li.pop_front(); //- ALLRIGHT
 	//cout << li.getsize() << endl; //- ALLRIGHT
 	//li.pop_back(); //- ALLRIGHT
-	li.swapall();
 	li.show(); //- ALLRIGHT
 
 	system("pause");
